@@ -1,33 +1,33 @@
 class Solution {
 public:
     int maxActiveSectionsAfterTrade(string s) {
-        int totalOnes = 0;
-        for(char c : s)
-            if(c == '1')
-                totalOnes++;
+        int n = s.length();
 
-        string t = "1" + s + "1";
+        // Existing count of active sections
+        int activeCount = count(s.begin(), s.end(), '1');
 
-        vector<pair<char,int>> seg;
+        vector<int> inactiveBlock;
 
-        for(char c : t){
-            if(seg.empty() || seg.back().first != c)
-                seg.push_back({c,1});
-            else
-                seg.back().second++;
-        }
+        int i = 0;
+        while (i < n) {
+            if (s[i] == '0') {
+                int start = i;
+                while (i < n && s[i] == '0')
+                    i++;
 
-        int bestGain = 0;
-
-        for(int i = 1; i + 1 < seg.size(); i++){
-            if(seg[i].first == '1' &&
-               seg[i-1].first == '0' &&
-               seg[i+1].first == '0'){
-                bestGain = max(bestGain,
-                               seg[i-1].second + seg[i+1].second);
+                inactiveBlock.push_back(i - start);
+            } else {
+                i++;
             }
         }
 
-        return totalOnes + bestGain;
+        int maxPairSum = 0;
+
+        for (int j = 1; j < inactiveBlock.size(); j++) {
+            maxPairSum = max(maxPairSum,
+                             inactiveBlock[j] + inactiveBlock[j - 1]);
+        }
+
+        return activeCount + maxPairSum;
     }
 };
