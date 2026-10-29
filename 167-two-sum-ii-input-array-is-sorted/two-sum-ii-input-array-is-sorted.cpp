@@ -1,17 +1,19 @@
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int tar) {
-        int i=0;
-        int j=(nums.size()-1);
+    vector<int> twoSum(vector<int>& nums, int target) {
+        //two pointer's approach
+        int st=0, end = nums.size()-1;
+        int currsum = 0;
+        //vector<int> ans;
 
-        while(i<j){
-            int sum = nums[i]+nums[j]; 
-            if (sum == tar){
-                return {i+1,j+1};
-            }else if(sum < tar){
-                i++;
+        while(st<end){
+            int currsum = nums[st]+nums[end]; 
+            if (currsum == target){
+                return {st + 1, end + 1};
+            }else if(currsum > target){
+                end--;
             }else{
-                j--;
+                st++;
             }
         }
         return {};
