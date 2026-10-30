@@ -1,20 +1,22 @@
 class Solution {
 public:
-    int removeDuplicates(std::vector<int>& nums) {
-        // If the array has 0 or 1 element, it's already unique.
-        if (nums.size() <= 1) return nums.size();
+    int removeDuplicates(vector<int>& nums) {
+        // 2 pointer approach
+        int n = nums.size();
+    
+        if (n <= 1) return n;
 
-        int left = 1;  // position where next unique element will go
+        int i = 0, j =1;
 
-        for (int right = 1; right < nums.size(); ++right) {
-            // Check if current value is a new unique value
-            if (nums[right] != nums[right - 1]) {
-                nums[left] = nums[right];  // place it at 'left'
-                ++left;                    // move left to next slot
+        while(j<n){
+            if(nums[i] != nums[j]){
+                i++;
+                nums[i] = nums[j];
             }
+            j++; // to find unique elements
         }
 
-        // 'left' is the number of unique elements
-        return left;
+        
+        return i+1;
     }
 };
